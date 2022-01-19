@@ -57,7 +57,7 @@ router.put('/:id', async function (req, res) {
     res.send(file);
 });
 
-router.delete('/:id', async function (req, res) {
+router.delete('/:id', async (req, res) => {
     const file = await File.findByIdAndDelete(req.params.id);
 
     if (!file)

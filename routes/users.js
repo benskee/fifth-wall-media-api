@@ -36,4 +36,13 @@ router.post('/register', async (req, res) => {
     .send(_.pick(user, ["_id", "name", "email"]));
 })
 
+router.delete('/:id', async (req, res) => {
+    const user = await User.findByIdAndDelete(req.params.id);
+
+    if (!user)
+        return res.status(404).send("The user was not found.");
+
+    res.send(user);
+});
+
 module.exports = router;
