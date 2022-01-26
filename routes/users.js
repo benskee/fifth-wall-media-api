@@ -46,7 +46,10 @@ router.delete('/:id', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    const user = await User.find({_id: req.params.id})
+    const user = await User.findByIdAndUpdate(req.params.id, {
+        username: req.body.username,
+        email: req.body.u
+    })
     if(!user)
         return res.status(404).send("User not found.")
     res.send(user)
