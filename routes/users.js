@@ -46,9 +46,13 @@ router.delete('/:id', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    const user = await User.findByIdAndUpdate(req.params.id, {
+    let user = await User.findOne({ username: req.body.originalUsername });
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!validPassword) return res.status(400).send('Invalid username or password.');
+
+    user = await User.findByIdAndUpdate(req.params.id, {
         username: req.body.username,
-        email: req.body.u
+        email: req.body.email
     })
     if(!user)
         return res.status(404).send("User not found.")
