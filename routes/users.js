@@ -47,15 +47,17 @@ router.delete('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     let user = await User.findOne({ username: req.body.originalUsername });
+    if(!user) return res.status(404).send("User not found.")
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(400).send('Invalid username or password.');
+
+    let duplicate = await User.findOne({ username: req.body.username });
+    if (duplicate) return res.status(400).send('Username already taken. Please select another name.')
 
     user = await User.findByIdAndUpdate(req.params.id, {
         username: req.body.username,
         email: req.body.email
     })
-    if(!user)
-        return res.status(404).send("User not found.")
     res.send(user)
 })
 
