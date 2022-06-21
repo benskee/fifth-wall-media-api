@@ -15,6 +15,7 @@ router.post('/upload', upload.any(), async (req, res) => {
                 body: fileJSON,
                 mediaURL: userInput.mediaURL,
                 username: userInput.username,
+                userId: userInput.userId,
                 projectName: userInput.projectName,
                 projectType: userInput.projectType,
                 timeAdjust: parseInt(userInput.timeAdjust),
